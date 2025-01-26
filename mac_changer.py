@@ -1,14 +1,20 @@
 import subprocess
 
-interface = input("Enter the interface name for which you want to change the MAC :")
+import optparse
 
-new_mac = input("Enter the new MAC address :")
+parser  = optparse.OptionParser() 
 
-subprocess.call("sudo ifconfig " + interface + "down" , shell=True)
+parser.add_option("-i" , "--interface" , dest="interface" ,  help = "Use this to set the interface")
+parser.add_option("-m" , "--mac" , dest="new_mac" ,  help = "Use this to set the interface")
 
-subprocess.call("sudo ifconfig " + interface + "hw ether"+ new_mac , shell=True)
+(options,arguments) = parser.parse_args()
 
-subprocess.call("sudo ifconfig " + interface + "up" , shell=True)
+interface = options.interface
+new_mac = options.new_mac
+
+subprocess.call(f"sudo ifconfig {interface} down", shell=True)
+subprocess.call(f"sudo ifconfig {interface} hw ether {new_mac}", shell=True)
+subprocess.call(f"sudo ifconfig {interface} up", shell=True)
 
 print("Your mac is changed succesfully !")
 

@@ -1,10 +1,14 @@
 import subprocess
 
-subprocess.call("sudo ifconfig wlan0 down" , shell=True)
+interface = input("Enter the interface name for which you want to change the MAC :")
 
-subprocess.call("sudo ifconfig wlan0 hw ether 00:11:22:33:44:55" , shell=True)
+new_mac = input("Enter the new MAC address :")
 
-subprocess.call("sudo ifconfig wlan0 up" , shell=True)
+subprocess.call("sudo ifconfig " + interface + "down" , shell=True)
+
+subprocess.call("sudo ifconfig " + interface + "hw ether"+ new_mac , shell=True)
+
+subprocess.call("sudo ifconfig " + interface + "up" , shell=True)
 
 print("Your mac is changed succesfully !")
 

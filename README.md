@@ -23,7 +23,7 @@ ANOTNET is an open-source repository focused on providing educational resources 
 Clone this repository to your local machine and run the scripts directly:
 
 ```bash
-git clone https://github.com/<th-shivam>/ANOTNET.git
+git clone https://github.com/th-shivam/ANOTNET.git
 cd ANOTNET
 ```
 🔥 Usage

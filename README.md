@@ -15,7 +15,7 @@ ANOTNET is an open-source repository focused on providing educational resources 
 
 ## 🐍 **Technologies Used**
 - **Python 3.x**: All scripts are written in Python for simplicity and ease of use.
-- **No Dependencies**: No additional libraries or modules are required, just plain Python!
+- **Required Dependencies**: Installing additional libraries or modules are required !
 
 ---
 

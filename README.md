@@ -30,7 +30,7 @@ cd ANOTNET
 
 To use any script, simply execute it with Python:
 
-python <script_name>.py
+sudo python3 <script_name>.py
 
 📌 Disclaimer
 

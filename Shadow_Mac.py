@@ -39,6 +39,6 @@ else:
     print("Mac address did not get changed")
 
 
-# Run the script with sudo python3 mac_changer.py -i eth0 -m 00:11:22:33:44:55
+# Run the script with sudo permission in linux 
 
 # The script is written by SHIVAM SINGH 

@@ -36,8 +36,8 @@ queue.run()
 
 #for internal testing . 
 
-#sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0
 #sudo iptables -I INPUT -j NFQUEUE --queue-num 0
+#sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0
 
 
 #After the attack is over dont forget to flush the ip tables 

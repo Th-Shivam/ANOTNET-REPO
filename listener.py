@@ -7,3 +7,9 @@ listener.listen(0)
 print("[+] Waiting for incoming connection")
 connection , address = listener.accept()
 print("[+] Connection established from " + str(address))
+
+while True:
+    command = input(">> ")
+    connection.send(command.encode())
+    result = connection.recv(1024).decode()
+    print(result)

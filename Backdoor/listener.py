@@ -59,7 +59,7 @@ class Listener :
 
             print(result, end="")
 
-my_listener = Listener("0.0.0.0" , 5555)
+my_listener = Listener("0.0.0.0" , "Port number here as integer")
 my_listener.run()
 
 

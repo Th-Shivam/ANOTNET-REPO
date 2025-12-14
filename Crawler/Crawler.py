@@ -6,7 +6,7 @@ def request(url):
     except rq.exceptions.ConnectionError:
         pass     
 
-with open("subdomains-wordlist.txt" , "r" ) as wordlist:
+with open("Crawler/subdomains-wordlist.txt" , "r" ) as wordlist:
     for line in wordlist:
         subdomain = line.strip()
         url = "google.com" 

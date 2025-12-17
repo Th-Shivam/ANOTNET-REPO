@@ -6,13 +6,13 @@ def request(url):
     except rq.exceptions.ConnectionError:
         pass     
 
-with open("Crawler/subdomains-wordlist.txt" , "r" ) as wordlist:
+with open("Crawler/files-and-dirs-wordlist.txt" , "r" ) as wordlist:
     for line in wordlist:
         subdomain = line.strip()
         url = "google.com" 
-        test_url = f"{subdomain}.{url}" 
+        test_url = f"{url}/{subdomain}" 
         response = request(test_url)
         if response:
-            print(f"[+] Discovered subdomain --->  {test_url}")
+            print(f"[+] Discovered url --->  {test_url}")
         else:
             pass         

@@ -199,11 +199,35 @@ func main() {
 		}
 		mu.Unlock()
 
-		// Send the reaction message
-		resp, err := client.SendMessage(ctx, targetJID, reactionMsg,
-			whatsmeow.SendRequestExtra{ID: msgID})
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "[seq=%d] SendMessage error: %v\n", seq, err)
+		// Send the reaction message with simple retry/reconnect logic to
+		// handle transient websocket/usync failures that can leave the
+		// store without device JIDs (observed as EOF / disconnected errors).
+	var resp whatsmeow.SendResponse
+	var sendErr error
+		const maxAttempts = 3
+		for attempt := 1; attempt <= maxAttempts; attempt++ {
+			resp, sendErr = client.SendMessage(ctx, targetJID, reactionMsg,
+				whatsmeow.SendRequestExtra{ID: msgID})
+			if sendErr == nil {
+				break
+			}
+			// Log the transient error and try to recover by reconnecting.
+			fmt.Fprintf(os.Stderr, "[seq=%d] SendMessage error (attempt %d/%d): %v\n", seq, attempt, maxAttempts, sendErr)
+
+			// Try a graceful disconnect then reconnect. Ignore connect errors
+			// for now — we'll retry the send in the next loop iteration.
+			client.Disconnect()
+			time.Sleep(500 * time.Millisecond)
+			if err := client.Connect(); err != nil {
+				fmt.Fprintf(os.Stderr, "[seq=%d] Reconnect error: %v\n", seq, err)
+			} else {
+				// Allow a short moment for usync/device info to populate.
+				time.Sleep(500 * time.Millisecond)
+			}
+		}
+
+		if sendErr != nil {
+			fmt.Fprintf(os.Stderr, "[seq=%d] SendMessage failed after %d attempts: %v\n", seq, maxAttempts, sendErr)
 			mu.Lock()
 			delete(pending, msgID)
 			mu.Unlock()
